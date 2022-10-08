@@ -1,0 +1,23 @@
+{
+  "name": "dmt_server",
+  "version": "1.0.0",
+  "description": "Backend for DMT web application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arcadia187/dmt.git"
+  },
+  "author": "Arcadia Solutions",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arcadia187/dmt/issues"
+  },
+  "homepage": "https://github.com/arcadia187/dmt#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.6.5"
+  }
+}
