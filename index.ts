@@ -1,6 +1,7 @@
 import express, { Express, Request, Response,NextFunction } from 'express';
 import * as dotenv from 'dotenv';
-import {CustomError} from './utils/customError';
+import {CustomError} from "./utils/customError";
+const morganBody = require("morgan-body");
 const handleErrors = require("./utils/errors");
 const httpContext = require("express-http-context");
 const { v4: uuidv4 } = require("uuid");
@@ -22,6 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+//Request logger
+morganBody(app);
+
 // order matters 
 app.use(httpContext.middleware);
 
@@ -32,7 +36,6 @@ app.use((req:Request, res:Response, next:NextFunction) => {
   httpContext.set("requestId", requestId);
   logRequest(req);
   responseLoggerMiddleware(res);
-
   next();
 });
 
@@ -50,3 +53,6 @@ app.use(handleErrors());
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });
+
+
+
