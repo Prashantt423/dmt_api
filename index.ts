@@ -1,5 +1,6 @@
 import express, { Express, Request, Response,NextFunction } from 'express';
 import * as dotenv from 'dotenv';
+import path from 'path';
 import {CustomError} from "./utils/customError";
 const morganBody = require("morgan-body");
 const handleErrors = require("./utils/errors");
@@ -25,6 +26,11 @@ app.use(bodyParser.json());
 
 //Request logger
 morganBody(app);
+process.env.SRC_PATH = path.resolve(__dirname);
+
+// Setup Mongoose connection
+require("./config/db")(process.env.MONGO_URL);
+// require("./dummyData");
 
 // order matters 
 app.use(httpContext.middleware);
@@ -40,7 +46,7 @@ app.use((req:Request, res:Response, next:NextFunction) => {
 });
 
 //Load all routes
-app.use("/", indexRoutes);
+app.use("/api", indexRoutes);
 
 // All undefined routes should throw 404
 app.use("*", (req:Request, res:Response, next:NextFunction) => {
@@ -49,7 +55,7 @@ app.use("*", (req:Request, res:Response, next:NextFunction) => {
 });
 
 //Global Error handler
-app.use(handleErrors());
+app.use(handleErrors);
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });

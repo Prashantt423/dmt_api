@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import { ProductType ,DiscountType,AttributeType,VariantType,ProductDetailsType} from "../types/product.types";
 const discountSchema = new Schema<DiscountType>({
     value:{
@@ -12,23 +12,7 @@ const discountSchema = new Schema<DiscountType>({
     endDate:{
         type:Date,
     }
-})
-const variantSchema = new Schema<VariantType>({
-    field:{
-      type:String,
-      required:true
-    },
-    value:{
-      type:String,
-      required:true
-    },
-    stock:{
-      type:Number,
-      min:0,
-      required:true,
-    }
-    
-})
+},{ _id : false })
 const productDetailSchema = new Schema<ProductDetailsType>({
     field:{
       type:String,
@@ -38,15 +22,16 @@ const productDetailSchema = new Schema<ProductDetailsType>({
       type:String,
       required:true
     }
-})
+},{ _id : false })
 const attributeSchema = new Schema<AttributeType>({
-    variant:[variantSchema]
+    variant:[]
     // other fields are dynamically added
-})
+}, { _id : false })
 const productSchema = new Schema<ProductType>({
   title: {
     required: true,
     type: String,
+    unique:true
   },
   price:{
     required: true,
@@ -54,7 +39,7 @@ const productSchema = new Schema<ProductType>({
   },
   description:{
     required: true,
-    type:Number
+    type:String
   },
   discount:discountSchema,
   attribute:attributeSchema,
@@ -64,7 +49,7 @@ const productSchema = new Schema<ProductType>({
   },
   images:{
     type:[String],
-    required: true
+    // required: true
   },
   productDetails:[productDetailSchema],// other fields are dynamically added
   artists:{
@@ -78,6 +63,7 @@ const productSchema = new Schema<ProductType>({
     enum:["release","goods"],
     default:"goods"
   }
-});
+},{timestamps:true},);
 
-module.exports = mongoose.model("Product",productSchema)
+const Product: Model<ProductType> = mongoose.model("Product", productSchema);
+export default Product;

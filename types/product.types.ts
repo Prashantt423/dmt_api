@@ -8,13 +8,11 @@ export interface ProductDetailsType {
     value?:String
 }
 export interface VariantType {
-    field:String,
-    value:String,
     stock:Number
     // dynamically added field type and value
 }
 export interface AttributeType {
-    variant?:[VariantType]
+    variant?:[]
 }
 
 export interface ProductType {
@@ -30,4 +28,11 @@ export interface ProductType {
         songs?:[String],
         productType:String
 }
+
+export type CreateProductReturnType ={
+    data:any,
+    success:boolean,
+    status:number
+}
+export type CreateProduct = (product:ProductType) => Promise<CreateProductReturnType>;
 

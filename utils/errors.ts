@@ -1,9 +1,8 @@
 import {  Request, Response,NextFunction } from 'express';
 import {CustomError} from '../utils/customError';
 // eslint-disable-next-line no-unused-vars
-const errorHandler = () => (error:CustomError, req:Request, res:Response, _next:NextFunction) => {
+const errorHandler = (error:CustomError, req:Request, res:Response, _next:NextFunction) => {
     console.log(error);
-
     if (error.statusCode && error.statusCode !== 500) {
       console.error({
         err: {
