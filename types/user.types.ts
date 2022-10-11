@@ -1,5 +1,10 @@
 import { Types } from "mongoose";
 
+enum Roles {
+  admin = "ADMIN",
+  user = "USER",
+}
+
 export interface UserType {
   name: string;
   email: string;
@@ -8,4 +13,7 @@ export interface UserType {
   ip: string;
   passwordChangedAt: Date;
   dateOfBirth: Date;
+  confirmPassword: string;
+  role: string;
+  _id: Types.ObjectId;
 }
