@@ -4,7 +4,7 @@ import {CustomError} from '../utils/customError';
 const errorHandler = () => (error:CustomError, req:Request, res:Response, _next:NextFunction) => {
     console.log(error);
 
-    if (error.statusCode && error.statusCode != 500) {
+    if (error.statusCode && error.statusCode !== 500) {
       console.error({
         err: {
           message: error.message,
@@ -22,6 +22,5 @@ const errorHandler = () => (error:CustomError, req:Request, res:Response, _next:
       message: 'INTERNAL SERVER ERROR',
     });
   };
-  
+
   module.exports = errorHandler;
-  

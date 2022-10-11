@@ -1,6 +1,6 @@
 const winston = require('winston');
 const ecsFormat = require('@elastic/ecs-winston-format');
-var httpContext = require('express-http-context');
+const httpContext = require('express-http-context');
 import * as dotenv from 'dotenv';
 dotenv.config();
 const REQUEST_RESPONSE_LOG_PATH = process.env.REQUEST_RESPONSE_LOG_PATH;;
@@ -29,7 +29,7 @@ const getUserDetails = () => {
   };
 };
 
- 
+
 const logRequest = (req :any) => {
   const logObj :any = {
     ...logUtils,
