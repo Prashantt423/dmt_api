@@ -41,6 +41,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.14",
+    "@types/jwt-simple": "^0.5.33",
     "@types/node": "^18.8.3",
     "concurrently": "^7.4.0",
     "nodemon": "^2.0.20",

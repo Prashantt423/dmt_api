@@ -1,6 +1,7 @@
-import express, { Express, Request, Response,NextFunction } from 'express';
-import * as dotenv from 'dotenv';
-import {CustomError} from "./utils/customError";
+import express, { Express, Request, Response, NextFunction } from "express";
+import * as dotenv from "dotenv";
+import { CustomError } from "./utils/customError";
+import connect from "./config/db";
 const morganBody = require("morgan-body");
 const handleErrors = require("./utils/errors");
 const httpContext = require("express-http-context");
@@ -12,10 +13,12 @@ const {
   logRequest,
 } = require("./utils/logger/requestResponseLogger");
 const indexRoutes = require("./controller/index.routes");
-dotenv.config();
-const app : express.Application = express();
+dotenv.config({ path: "./.env" });
+const app: express.Application = express();
 const port = process.env.PORT || 3001;
 
+//connection to db
+connect(process.env.MONGO_URL);
 // middlewares
 app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
@@ -26,10 +29,10 @@ app.use(bodyParser.json());
 //Request logger
 morganBody(app);
 
-// order matters 
+// order matters
 app.use(httpContext.middleware);
 
-app.use((req:Request, res:Response, next:NextFunction) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   const requestId = uuidv4();
   req.headers["x-request-id"] = requestId;
   res.setHeader("x-request-id", requestId);
@@ -40,11 +43,11 @@ app.use((req:Request, res:Response, next:NextFunction) => {
 });
 
 //Load all routes
-app.use("/", indexRoutes);
+app.use("/api", indexRoutes);
 
 // All undefined routes should throw 404
-app.use("*", (req:Request, res:Response, next:NextFunction) => {
-  const error = new CustomError(404,"not found");
+app.use("*", (req: Request, res: Response, next: NextFunction) => {
+  const error = new CustomError(404, "not found");
   next(error);
 });
 
@@ -53,6 +56,3 @@ app.use(handleErrors());
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });
-
-
-

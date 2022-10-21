@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
-module.exports = (dbUrl: string) => {
+const connect = (dbUrl: string) => {
   mongoose
     .connect(dbUrl, {
       useNewUrlParser: true,
@@ -14,3 +14,5 @@ module.exports = (dbUrl: string) => {
       console.log(`[*] Error while connecting to DB, with error: ${err}`);
     });
 };
+
+export default connect;

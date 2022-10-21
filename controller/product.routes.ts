@@ -1,14 +1,17 @@
-import {  Request, Response,NextFunction } from 'express';
-const express = require('express');
-const router = express.Router();
+import { Request, Response, NextFunction } from "express";
+// const express = require("express");
+import { Router } from "express";
+const productRouter = Router();
 
-
-router.get("/read", (req:Request, res:Response, next:NextFunction):void => {
-  try {
-    res.send({ message: 'Hi there' });
-  } catch (e) {
-    next(e);
+productRouter.get(
+  "/read",
+  (req: Request, res: Response, next: NextFunction): void => {
+    try {
+      res.send({ message: "Hi there" });
+    } catch (e) {
+      next(e);
+    }
   }
-});
+);
 
-module.exports = router;
+export { productRouter };

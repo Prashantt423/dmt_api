@@ -1,19 +1,40 @@
-import { Types } from "mongoose";
+import { Types, Document } from "mongoose";
 
-enum Roles {
-  admin = "ADMIN",
-  user = "USER",
-}
-
-export interface UserType {
+export interface UserType extends Document {
   name: string;
   email: string;
   password: string;
-  cart: [Types.ObjectId];
+  cart?: [Types.ObjectId];
   ip: string;
-  passwordChangedAt: Date;
+  passwordChangedAt: Number;
   dateOfBirth: Date;
   confirmPassword: string;
-  role: string;
-  _id: Types.ObjectId;
+  role?: string;
+  _id?: Types.ObjectId;
+  phone?: Number;
 }
+
+type Signup = {
+  data: any;
+  success: boolean;
+};
+
+type Login = {
+  data: any;
+  success: boolean;
+};
+
+export type SignupReturnType = (user: UserType) => Promise<Signup>;
+
+export type LoginReturnType = (
+  email: string,
+  password: string
+) => Promise<Login>;
+
+type RepositoryReturnType = {
+  data: any;
+  success: boolean;
+};
+export type FindUser = (
+  userId: Types.ObjectId
+) => Promise<RepositoryReturnType>;

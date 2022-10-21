@@ -7,9 +7,13 @@ const userSchema = new Schema<UserType>({
     required: true,
     type: String,
   },
+  phone: {
+    type: Number,
+  },
   email: {
     required: true,
     type: String,
+    unique: true,
   },
   password: {
     required: true,
@@ -31,7 +35,7 @@ const userSchema = new Schema<UserType>({
     required: true,
   },
   passwordChangedAt: {
-    type: Date,
+    type: Number,
     required: true,
   },
   role: {
@@ -55,13 +59,13 @@ userSchema.methods.checkPasswords = async function (
   return await compare(reqPassword, userPassword);
 };
 
-// userSchema.methods.compareTimestamps = function (jwtTimeStamp: number) {
-//   if (this.passwordChangedAt) {
-//     const timeStamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
-//     return timeStamp > jwtTimeStamp;
-//   }
-//   return false;
-// };
+userSchema.methods.compareTimestamps = function (jwtTimeStamp: number) {
+  if (this.passwordChangedAt) {
+    const timeStamp = (this.passwordChangedAt.getTime() / 1000, 10);
+    return timeStamp > jwtTimeStamp;
+  }
+  return false;
+};
 
-const UserModel = model<UserType>("User");
+const UserModel = model<UserType>("User", userSchema);
 export default UserModel;
