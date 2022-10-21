@@ -6,7 +6,7 @@ export interface UserType extends Document {
   password: string;
   cart?: [Types.ObjectId];
   ip: string;
-  passwordChangedAt: Number;
+  passwordChangedAt: number;
   dateOfBirth: Date;
   confirmPassword: string;
   role?: string;

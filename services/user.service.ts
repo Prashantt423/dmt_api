@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { UserType } from "../types/user.types";
 import UserRepository from "../repository/user.repository";
-import UserUsecase from "../usecase/user/jwt.usecase";
+import UserUsecase from "../usecase/user/user.usecase";
 class UserServices {
   public static signup: RequestHandler = async (req, res, next) => {
     try {
@@ -29,8 +29,12 @@ class UserServices {
   };
   public static login: RequestHandler = async (req, res, next) => {
     try {
+      console.log(req.user);
       const { email, password } = req.body;
       const user = await UserRepository.logIn(email, password);
+      if (!user.success) {
+        throw new Error("User not found");
+      }
       const token = UserUsecase.generateToken(user.data._id);
       res.status(200).json({
         user,

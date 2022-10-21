@@ -1,4 +1,4 @@
-import UserUsecase from "../usecase/user/jwt.usecase";
+import UserUsecase from "../usecase/user/user.usecase";
 import User from "../model/user.model";
 import {
   FindUser,
@@ -6,7 +6,6 @@ import {
   SignupReturnType,
   UserType,
 } from "../types/user.types";
-import { Types } from "mongoose";
 
 class UserRepository {
   public static signUp: SignupReturnType = async (user: UserType) => {
@@ -29,9 +28,9 @@ class UserRepository {
       console.log(err);
     }
   };
-  public static getUser = async (userId: Types.ObjectId) => {
+  public static getUser = async (_id: string) => {
     try {
-      const user = await User.findById({ userId });
+      const user = await User.findById({ _id });
       return {
         data: user,
         success: true,
@@ -65,6 +64,10 @@ class UserRepository {
       };
     } catch (e) {
       console.log(e);
+      return {
+        success: false,
+        data: null,
+      };
     }
   };
 }

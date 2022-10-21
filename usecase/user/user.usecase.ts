@@ -14,6 +14,13 @@ class UserUsecase {
   ) => {
     return await compare(reqPassword, userPassword);
   };
+  public static compareTimeStamps = (
+    issuedAt: number,
+    passwordChangedAt: number
+  ) => {
+    const pwcAt = passwordChangedAt / 1000;
+    return pwcAt > issuedAt ? true : false;
+  };
 }
 
 export default UserUsecase;

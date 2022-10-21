@@ -1,7 +1,8 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import * as dotenv from "dotenv";
+import path from "path";
+import { connect } from "mongoose";
 import { CustomError } from "./utils/customError";
-import connect from "./config/db";
 const morganBody = require("morgan-body");
 const handleErrors = require("./utils/errors");
 const httpContext = require("express-http-context");
@@ -28,6 +29,11 @@ app.use(bodyParser.json());
 
 //Request logger
 morganBody(app);
+process.env.SRC_PATH = path.resolve(__dirname);
+
+// Setup Mongoose connection
+require("./config/db")(process.env.MONGO_URL);
+// require("./dummyData");
 
 // order matters
 app.use(httpContext.middleware);
@@ -52,7 +58,7 @@ app.use("*", (req: Request, res: Response, next: NextFunction) => {
 });
 
 //Global Error handler
-app.use(handleErrors());
+app.use(handleErrors);
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
 });
