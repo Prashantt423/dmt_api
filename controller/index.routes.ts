@@ -3,6 +3,7 @@ import { authRouter } from "./auth.routes";
 import { productRouter } from "../controller/product.routes";
 // const productRoutes = require("./product.routes");
 import { Router } from "express";
+import userRouter from "./user.routes";
 const router = Router();
 
 router.get(
@@ -17,6 +18,6 @@ router.get(
 );
 
 router.use("/product", productRouter);
-router.use("/user", authRouter);
-
+router.use("/auth", authRouter);
+router.use("/user", userRouter);
 module.exports = router;

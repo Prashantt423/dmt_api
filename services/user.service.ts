@@ -5,7 +5,7 @@ import UserUsecase from "../usecase/user/user.usecase";
 class UserServices {
   public static signup: RequestHandler = async (req, res, next) => {
     try {
-      const user: UserType = {
+      const user: any = {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
@@ -39,6 +39,40 @@ class UserServices {
       res.status(200).json({
         user,
         token,
+      });
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  };
+  public static addToCart: RequestHandler = async (req, res, next) => {
+    try {
+      const updatedCart = await UserRepository.addproductsToCart(
+        req.body.product,
+        req.user
+      );
+      if (!updatedCart.success) {
+        throw new Error("Something went wrong!");
+      }
+      res.status(200).json({
+        updatedCart,
+      });
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  };
+  public static removeFromCart: RequestHandler = async (req, res, next) => {
+    try {
+      const updatedCart = await UserRepository.deleteProductsFromCart(
+        req.body.product,
+        req.user
+      );
+      if (!updatedCart.success) {
+        throw new Error("Something went wrong!");
+      }
+      res.status(200).json({
+        updatedCart,
       });
     } catch (e) {
       console.log(e);

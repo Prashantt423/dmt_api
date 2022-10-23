@@ -1,6 +1,8 @@
 import UserUsecase from "../usecase/user/user.usecase";
 import User from "../model/user.model";
 import {
+  AddPorductsToCart,
+  Cart,
   FindUser,
   LoginReturnType,
   SignupReturnType,
@@ -67,6 +69,45 @@ class UserRepository {
       return {
         success: false,
         data: null,
+      };
+    }
+  };
+  public static addproductsToCart: Cart = async (product, user) => {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        {
+          $push: { cart: product },
+        },
+        { safe: true, upsert: true }
+      );
+
+      return {
+        data: updatedUser,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        data: null,
+        success: false,
+      };
+    }
+  };
+  public static deleteProductsFromCart: Cart = async (product, user) => {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(user._id, {
+        $pull: { cart: product },
+      });
+      return {
+        data: updatedUser,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        data: null,
+        success: false,
       };
     }
   };

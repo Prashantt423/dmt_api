@@ -33,8 +33,6 @@ class AuthMiddleWare {
         throw new Error("User does not exist");
       }
 
-      // 4) Checking if the password was changed before the token was issued.
-
       if (
         UserUsecase.compareTimeStamps(
           decoded.iat,
