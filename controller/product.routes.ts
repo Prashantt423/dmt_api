@@ -3,9 +3,9 @@ import { ProductUseCase } from '../usecase/product/product.usecase';
 import { ProductService } from '../service/product.service';
 
 const express = require('express');
-const router = express.Router();
+const productRouter = express.Router();
 
-router.post(
+productRouter.post(
   '/create',
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
@@ -17,7 +17,7 @@ router.post(
   }
 );
 
-router.delete(
+productRouter.delete(
   '/delete',
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
@@ -31,7 +31,7 @@ router.delete(
 );
 
 // /product?isFirst=1&limit=n -> next page and data
-router.get(
+productRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
@@ -45,7 +45,7 @@ router.get(
 );
 
 // /search, req.body={tags:["q1","q2"]}
-router.get(
+productRouter.get(
   '/search',
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
@@ -58,4 +58,4 @@ router.get(
   }
 );
 
-module.exports = router;
+export { productRouter };
