@@ -3,6 +3,7 @@ import {
   GetProduct,
   GetProductUseCase,
   GetProductWithPageAndLimit,
+  GetSearchedProducts,
 } from '../../types/product.types';
 
 export class ProductUseCase {
@@ -103,4 +104,31 @@ export class ProductUseCase {
         };
       }
     };
+  public static getSearchedProducts: GetSearchedProducts = async (body) => {
+    try {
+      const filter: any = {};
+      if (body.tags.length === 0) {
+        return {
+          data: 'empty tags',
+          status: 201,
+          success: true,
+        };
+      }
+      let tags: RegExp[];
+      tags = body.tags.map((t: string) => new RegExp(t));
+      console.log(tags); // { tags: { '$in': [ /re/, /fru/, /yel/ ] } }
+      const searchedProducts = await ProductRepository.searchForTags(tags);
+      return {
+        data: searchedProducts,
+        status: 200,
+        success: true,
+      };
+    } catch (e) {
+      return {
+        data: JSON.stringify(e),
+        status: 500,
+        success: true,
+      };
+    }
+  };
 }

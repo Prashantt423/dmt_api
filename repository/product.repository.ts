@@ -3,6 +3,7 @@ import {
   DeleteProduct,
   GetProduct,
   GetProductWithPageAndLimit,
+  GetSearchedProductsRepository,
 } from '../types/product.types';
 import Product from '../model/product.model';
 export class ProductRepository {
@@ -80,5 +81,16 @@ export class ProductRepository {
   };
   public static getProductWithLimit: GetProduct = async ({ limit }) => {
     return await Product.find({}).sort({ updatedAt: -1 }).limit(limit);
+  };
+  public static searchForTags: GetSearchedProductsRepository = async (
+    regexp
+  ) => {
+    const filter: any = {
+      tags: {
+        $in: regexp,
+      },
+    };
+    console.log(filter);
+    return await Product.find(filter);
   };
 }
