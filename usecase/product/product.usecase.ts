@@ -1,10 +1,10 @@
-import { ProductRepository } from '../../repository/product.repository';
+import { ProductRepository } from "../../repository/product.repository";
 import {
   GetProduct,
   GetProductUseCase,
   GetProductWithPageAndLimit,
   GetSearchedProducts,
-} from '../../types/product.types';
+} from "../../types/product.types";
 
 export class ProductUseCase {
   public static getProduct: GetProductUseCase = async (query) => {
@@ -16,8 +16,8 @@ export class ProductUseCase {
       isFirst = isFirst != undefined ? parseInt(isFirst) : 0;
       console.log(query);
       let data;
-      let nextPageUrl = '',
-        prevPageUrl = '';
+      let nextPageUrl = "",
+        prevPageUrl = "";
       if (parseInt(isFirst) === 1) {
         // first request :- Just return from here with data and next link
         const data = await ProductRepository.getProductWithLimit({
@@ -48,13 +48,13 @@ export class ProductUseCase {
         });
         data.reverse();
       } else {
-        throw new Error('Got unexpected value for flag:');
+        throw new Error("Got unexpected value for flag:");
       }
       if (data.length == 0)
         return {
           data: data,
           success: true,
-          message: 'You have reached at the end!',
+          message: "You have reached at the end!",
           status: 200,
         };
 
@@ -74,7 +74,7 @@ export class ProductUseCase {
     } catch (e) {
       console.log(e);
       return {
-        data: '',
+        data: "",
         success: false,
         status: 500,
       };
@@ -109,13 +109,13 @@ export class ProductUseCase {
       const filter: any = {};
       if (body.tags.length === 0) {
         return {
-          data: 'empty tags',
+          data: "empty tags",
           status: 201,
           success: true,
         };
       }
       let tags: RegExp[];
-      tags = body.tags.map((t: string) => new RegExp(t));
+      tags = body.tags.map((t: string) => new RegExp(t.toLowerCase()));
       console.log(tags); // { tags: { '$in': [ /re/, /fru/, /yel/ ] } }
       const searchedProducts = await ProductRepository.searchForTags(tags);
       return {
