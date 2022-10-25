@@ -50,7 +50,13 @@ const productSchema = new Schema<ProductType>(
       unique: true,
       trim: true,
     },
-    tags: [String],
+    tags: [
+      {
+        type: String,
+        lowercase: true,
+        trim: true,
+      },
+    ],
     price: {
       required: true,
       type: Number,

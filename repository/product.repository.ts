@@ -4,8 +4,8 @@ import {
   GetProduct,
   GetProductWithPageAndLimit,
   GetSearchedProductsRepository,
-} from '../types/product.types';
-import Product from '../model/product.model';
+} from "../types/product.types";
+import Product from "../model/product.model";
 export class ProductRepository {
   public static createProduct: CreateProduct = async (product) => {
     try {
@@ -46,7 +46,7 @@ export class ProductRepository {
       const deletedProduct = await Product.findOneAndDelete(productId);
       return {
         data:
-          deletedProduct === null ? 'No such product exists.' : deletedProduct,
+          deletedProduct === null ? "No such product exists." : deletedProduct,
         success: true,
         status: deletedProduct === null ? 202 : 204,
       };

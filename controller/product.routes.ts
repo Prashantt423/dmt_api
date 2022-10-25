@@ -1,12 +1,12 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { ProductUseCase } from '../usecase/product/product.usecase';
-import { ProductService } from '../service/product.service';
+import { Request, Response, NextFunction, RequestHandler } from "express";
+import { ProductUseCase } from "../usecase/product/product.usecase";
+import { ProductService } from "../service/product.service";
 
-const express = require('express');
+const express = require("express");
 const productRouter = express.Router();
 
 productRouter.post(
-  '/create',
+  "/create",
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
       const productObj = await ProductService.createProduct(req.body);
@@ -18,7 +18,7 @@ productRouter.post(
 );
 
 productRouter.delete(
-  '/delete',
+  "/delete",
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
       const deletedProductObj = await ProductService.deleteProduct(req.body.id);
@@ -32,7 +32,7 @@ productRouter.delete(
 
 // /product?isFirst=1&limit=n -> next page and data
 productRouter.get(
-  '/',
+  "/",
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
       const foundProducts = await ProductUseCase.getProduct(req.query);
@@ -46,7 +46,7 @@ productRouter.get(
 
 // /search, req.body={tags:["q1","q2"]}
 productRouter.get(
-  '/search',
+  "/search",
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
       const foundProducts = await ProductUseCase.getSearchedProducts(req.body);
