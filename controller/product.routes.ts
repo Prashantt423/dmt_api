@@ -44,4 +44,18 @@ router.get(
   }
 );
 
+// /search, req.body={tags:["q1","q2"]}
+router.get(
+  '/search',
+  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    try {
+      const foundProducts = await ProductUseCase.getSearchedProducts(req.body);
+      res.status(foundProducts.status).json(foundProducts);
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  }
+);
+
 module.exports = router;

@@ -62,3 +62,6 @@ export type GetProductWithPageAndLimitArgument = {
 export type GetProductWithPageAndLimit = (
   params: GetProductWithPageAndLimitArgument
 ) => Promise<any>;
+
+export type GetSearchedProducts = (params: any) => Promise<any>;
+export type GetSearchedProductsRepository = (params: RegExp[]) => Promise<any>;
