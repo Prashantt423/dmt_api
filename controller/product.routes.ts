@@ -1,9 +1,15 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import {
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler,
+  Router,
+} from "express";
 import { ProductUseCase } from "../usecase/product/product.usecase";
 import { ProductService } from "../service/product.service";
 
 const express = require("express");
-const productRouter = express.Router();
+const productRouter: Router = express.Router();
 
 productRouter.post(
   "/create",
@@ -58,4 +64,5 @@ productRouter.get(
   }
 );
 
+productRouter.get("/:id", ProductService.getSingleProduct);
 export { productRouter };

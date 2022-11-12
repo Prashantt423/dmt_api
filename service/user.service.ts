@@ -10,7 +10,7 @@ class UserServices {
         email: req.body.email,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
-        ip: req.body.ip,
+        // ip: req.body.ip,
         dateOfBirth: new Date(req.body.dateOfBirth),
         passwordChangedAt: Date.now(),
       };

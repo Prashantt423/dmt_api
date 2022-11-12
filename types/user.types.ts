@@ -5,7 +5,7 @@ export interface UserType extends Document {
   email: string;
   password: string;
   cart?: [string];
-  ip: string;
+  // ip: string;
   passwordChangedAt: number;
   dateOfBirth: Date;
   confirmPassword: string;
