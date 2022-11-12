@@ -6,12 +6,12 @@ class UserServices {
   public static signup: RequestHandler = async (req, res, next) => {
     try {
       const user: any = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        confirmPassword: req.body.confirmPassword,
-        ip: req.body.ip,
-        dateOfBirth: new Date(req.body.dateOfBirth),
+        name: req.body?.name,
+        email: req.body?.email,
+        password: req.body?.password,
+        confirmPassword: req.body?.confirmPassword,
+        ip: req.body?.ip,
+        dateOfBirth: new Date(req.body?.dateOfBirth),
         passwordChangedAt: Date.now(),
       };
       const newUser = await UserRepository.signUp(user);
