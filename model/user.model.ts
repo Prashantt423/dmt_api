@@ -28,7 +28,6 @@ const userSchema = new Schema<UserType>({
   },
   ip: {
     type: String,
-    required: true,
   },
   dateOfBirth: {
     type: Date,
