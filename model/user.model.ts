@@ -49,6 +49,10 @@ const userSchema = new Schema<UserType>({
     enum: ["USER", "ADMIN"],
     default: "USER",
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.pre("save", async function (next) {

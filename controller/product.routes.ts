@@ -63,6 +63,19 @@ productRouter.get(
     }
   }
 );
+// /search, req.body={tags:["q1","q2"]}
+productRouter.get(
+  "/albums",
+  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    try {
+      const foundProducts = await ProductUseCase.getAlbums(req.query.limit);
+      res.status(foundProducts.status).json(foundProducts);
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  }
+);
 
 productRouter.get("/:id", ProductService.getSingleProduct);
 export { productRouter };

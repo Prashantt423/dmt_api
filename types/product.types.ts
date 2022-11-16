@@ -66,4 +66,4 @@ export type GetProductWithPageAndLimit = (
 export type GetSearchedProducts = (params: any) => Promise<any>;
 export type GetSearchedProductsRepository = (params: RegExp[]) => Promise<any>;
 
-export type GetProductById = (id: string) => Promise<ProductReturnType>;
+export type GetAlbums = (params: number) => Promise<any>;

@@ -1,6 +1,7 @@
 import {
   CreateProduct,
   DeleteProduct,
+  GetAlbums,
   GetProduct,
   GetProductById,
   GetProductWithPageAndLimit,
@@ -82,6 +83,13 @@ export class ProductRepository {
   };
   public static getProductWithLimit: GetProduct = async ({ limit }) => {
     return await Product.find({}).sort({ updatedAt: -1 }).limit(limit);
+  };
+  public static getAlbums: GetAlbums = async (limit) => {
+    return await Product.find({
+      productType: "release",
+    })
+      .sort({ updatedAt: -1 })
+      .limit(limit);
   };
   public static searchForTags: GetSearchedProductsRepository = async (
     regexp

@@ -2,9 +2,35 @@ import { RequestHandler } from "express";
 import { UserType } from "../types/user.types";
 import UserRepository from "../repository/user.repository";
 import UserUsecase from "../usecase/user/user.usecase";
+import verifyEmailTamplate from "../templates/verifyEmailTemplate";
+import NotificationsUtil from "../utils/notifications";
+import MailService from "../utils/notifications";
+import Crypto from "../utils/crypto";
 class UserServices {
   public static signup: RequestHandler = async (req, res, next) => {
     try {
+      const doEmailExist = await UserRepository.doEmailExist(req.body?.email);
+
+      if (doEmailExist?.error)
+        res.status(500).json({
+          message: "Internal server errror!",
+        });
+      if (doEmailExist?.isPresent)
+        res.status(401).json({
+          message: "This email already exists!",
+        });
+
+      // send (hashed email of user) to email for verification
+      const token = Crypto.encrypt(req.body?.email);
+      const verifyLink = `${process.env.CLIENT_SERVER}verify/${token}`;
+
+      const emailTemplate = verifyEmailTamplate(verifyLink);
+      const mailService = await MailService.sendEmailUtilLive(9000, {
+        to: req.body?.email,
+        subject: "Verify OTP",
+        html: emailTemplate.html,
+      });
+      console.log(mailService);
       const user: any = {
 <<<<<<< HEAD
         name: req.body.name,
@@ -25,12 +51,10 @@ class UserServices {
       };
       const newUser = await UserRepository.signUp(user);
       console.log(newUser);
-      const token = UserUsecase.generateToken(newUser.data._id);
 
       res.status(201).json({
         messgae: "success",
         newUser,
-        token,
       });
     } catch (e) {
       next(e);
@@ -42,12 +66,45 @@ class UserServices {
       const { email, password } = req.body;
       const user = await UserRepository.logIn(email, password);
       if (!user.success) {
-        throw new Error("User not found");
+        res.status(user.code).json(user.data);
       }
-      const token = UserUsecase.generateToken(user.data._id);
+      if (user.success && user.code === 200) {
+        const token = UserUsecase.generateToken(user.data._id);
+        res.status(200).json({
+          ...user,
+          token,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  };
+  public static verify: RequestHandler = async (req, res, next) => {
+    try {
+      const token = String(req.query.token);
+      console.log(token);
+      const email = Crypto.decrypt(token);
+      const doEmailExist = await UserRepository.doEmailExist(email);
+      if (doEmailExist?.error)
+        res.status(500).json({
+          message: "Internal server errror!",
+        });
+      if (doEmailExist?.isPresent)
+        res.status(401).json({
+          message: "This email already exists!",
+        });
+      // make user isVerify true
+      const updatedUser = await UserRepository.updateStatus(email);
+      if (updatedUser.error) {
+        res.status(500).json({
+          data: "INTERNAL_SERVER_ERROR",
+          success: false,
+        });
+      }
       res.status(200).json({
-        user,
-        token,
+        data: updatedUser.data,
+        success: true,
       });
     } catch (e) {
       console.log(e);

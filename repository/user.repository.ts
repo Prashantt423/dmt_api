@@ -44,11 +44,56 @@ class UserRepository {
       };
     }
   };
+  public static doEmailExist = async (email: string) => {
+    try {
+      const user = await User.findOne({ email: email });
+      if (
+        user && // 👈 null and undefined check
+        Object.keys(user).length === 0 &&
+        Object.getPrototypeOf(user) === Object.prototype
+      )
+        return {
+          isPresent: true,
+        };
+      return {
+        isPresent: false,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        error: true,
+        isPresent: false,
+      };
+    }
+  };
+  public static updateStatus = async (email: string) => {
+    try {
+      const user = await User.findOneAndUpdate(
+        { email: email },
+        { isVerified: true }
+      );
+
+      return {
+        data: user,
+        error: false,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        error: true,
+        isPresent: false,
+      };
+    }
+  };
   public static logIn: LoginReturnType = async (email, password) => {
     try {
       //Check if the credentials are actually presnet
       if (!email || !password) {
-        throw new Error("Passowrd or email does not exsists");
+        return {
+          success: false,
+          code: 400,
+          data: "Passowrd or email does not exsists",
+        };
       }
       //Check if the email matches with a user
       const user = await User.findOne({ email }).select("+password");
@@ -56,19 +101,32 @@ class UserRepository {
 
       const compare = await UserUsecase.checkPasswords(user.password, password);
       if (!user || !compare) {
-        throw new Error("Password you entered does not match");
+        return {
+          success: false,
+          code: 401,
+          data: "Incorrect password!",
+        };
       }
+
+      if (!user.isVerified)
+        return {
+          success: false,
+          data: "Email is not verified!",
+          code: 401,
+        };
       //Generate token
       // const token = generateToken(user._id);
       return {
         success: true,
         data: user,
+        code: 200,
       };
     } catch (e) {
       console.log(e);
       return {
         success: false,
         data: null,
+        code: 500,
       };
     }
   };

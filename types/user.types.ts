@@ -12,6 +12,7 @@ export interface UserType extends Document {
   role?: string;
   _id?: Types.ObjectId;
   phone?: Number;
+  isVerified: Boolean;
 }
 
 type Signup = {
@@ -22,6 +23,7 @@ type Signup = {
 type Login = {
   data: any;
   success: boolean;
+  code?: number;
 };
 
 export type SignupReturnType = (user: UserType) => Promise<Signup>;
@@ -34,6 +36,7 @@ export type LoginReturnType = (
 type RepositoryReturnType = {
   data: any;
   success: boolean;
+  code?: number;
 };
 export type FindUser = (
   userId: Types.ObjectId
