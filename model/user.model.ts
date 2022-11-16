@@ -26,10 +26,16 @@ const userSchema = new Schema<UserType>({
   cart: {
     type: [String],
   },
+<<<<<<< HEAD
   // ip: {
   //   type: String,
   //   required: true,
   // },
+=======
+  ip: {
+    type: String,
+  },
+>>>>>>> ef627ab728ed4d1569df3e5fbf1b1cb8cf6118cd
   dateOfBirth: {
     type: Date,
     required: true,
