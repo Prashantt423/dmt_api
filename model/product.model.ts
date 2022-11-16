@@ -81,9 +81,13 @@ const productSchema = new Schema<ProductType>(
     artists: {
       type: [String],
     },
-    songs: {
-      type: [String],
-    },
+    songs: [
+      {
+        poster: String,
+        song: String,
+      },
+    ],
+
     productType: {
       type: String,
       enum: ["release", "goods"],

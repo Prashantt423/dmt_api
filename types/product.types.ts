@@ -1,4 +1,4 @@
-import { FilterQuery } from 'mongoose';
+import { FilterQuery } from "mongoose";
 
 export interface DiscountType {
   value?: Number;
@@ -29,7 +29,7 @@ export interface ProductType {
   productDetails?: ProductDetailsType;
   artists?: [String];
   songs?: [String];
-  productType: 'release' | 'goods';
+  productType: "release" | "goods";
   created_at: number;
   updatedAt: Date;
   createdAt: Date;
@@ -65,3 +65,5 @@ export type GetProductWithPageAndLimit = (
 
 export type GetSearchedProducts = (params: any) => Promise<any>;
 export type GetSearchedProductsRepository = (params: RegExp[]) => Promise<any>;
+
+export type GetAlbums = (params: number) => Promise<any>;
