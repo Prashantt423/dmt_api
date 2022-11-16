@@ -131,4 +131,20 @@ export class ProductUseCase {
       };
     }
   };
+  public static getAlbums: GetSearchedProducts = async (limit) => {
+    try {
+      const searchedProducts = await ProductRepository.getAlbums(limit);
+      return {
+        data: searchedProducts,
+        status: 200,
+        success: true,
+      };
+    } catch (e) {
+      return {
+        data: JSON.stringify(e),
+        status: 500,
+        success: true,
+      };
+    }
+  };
 }

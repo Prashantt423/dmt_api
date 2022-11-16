@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 import { compare } from "bcryptjs";
 
 class UserUsecase {
-  public static generateToken = (id: Types.ObjectId) => {
+  public static generateToken = (id: Types.ObjectId | string) => {
     return sign({ id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
