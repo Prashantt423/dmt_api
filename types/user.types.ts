@@ -43,6 +43,6 @@ export type FindUser = (
 ) => Promise<RepositoryReturnType>;
 
 export type Cart = (
-  product: string,
+  product: { product: string; varient: {} },
   user: UserType
 ) => Promise<RepositoryReturnType>;
