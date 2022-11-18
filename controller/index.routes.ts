@@ -5,6 +5,7 @@ import { productRouter } from "../controller/product.routes";
 import { Router } from "express";
 import userRouter from "./user.routes";
 import { default as paymentRouter } from "../controller/payment.routes";
+import { default as currencyRouter } from "./currency.routes";
 const router = Router();
 
 router.get(
@@ -22,4 +23,5 @@ router.use("/product", productRouter);
 router.use("/auth", authRouter);
 router.use("/user", userRouter);
 router.use("/payment", paymentRouter);
+router.use("/currency", currencyRouter);
 module.exports = router;

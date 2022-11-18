@@ -3,6 +3,7 @@ import {
   DeleteProduct,
   GetAlbums,
   GetProduct,
+  GetProductById,
   GetProductWithPageAndLimit,
   GetSearchedProductsRepository,
 } from "../types/product.types";
@@ -100,5 +101,22 @@ export class ProductRepository {
     };
     console.log(filter);
     return await Product.find(filter);
+  };
+  public static getSingleProductById: GetProductById = async (id) => {
+    try {
+      const data = await Product.findById(id);
+      return {
+        data,
+        status: 200,
+        success: true,
+      };
+    } catch (e) {
+      return {
+        message: "Could not fetch the id",
+        data: null,
+        status: 404,
+        success: false,
+      };
+    }
   };
 }

@@ -104,8 +104,9 @@ class UserServices {
   };
   public static addToCart: RequestHandler = async (req, res, next) => {
     try {
+      const { product } = req.body;
       const updatedCart = await UserRepository.addproductsToCart(
-        req.body.product,
+        product,
         req.user
       );
       if (!updatedCart.success) {
