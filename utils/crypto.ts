@@ -1,4 +1,4 @@
-import crypto from "node:crypto";
+import crypto from "crypto";
 const ALGORITHM = process.env.CRYPTO_ALGO;
 const IV_LENGTH = Number(process.env.CRYPTO_IV_LENGTH);
 const KEY = process.env.CRYPTO_SECRET_KEY;

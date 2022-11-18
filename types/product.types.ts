@@ -67,3 +67,4 @@ export type GetSearchedProducts = (params: any) => Promise<any>;
 export type GetSearchedProductsRepository = (params: RegExp[]) => Promise<any>;
 
 export type GetAlbums = (params: number) => Promise<any>;
+export type GetProductById = (id: string) => Promise<any>;
