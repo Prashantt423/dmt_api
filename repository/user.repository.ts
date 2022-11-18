@@ -98,13 +98,16 @@ class UserRepository {
       //Check if the email matches with a user
       const user = await User.findOne({ email }).select("+password");
       //Check passwords
+      let compare;
+      if (user) {
+        compare = await UserUsecase.checkPasswords(user?.password, password);
+      }
 
-      const compare = await UserUsecase.checkPasswords(user.password, password);
       if (!user || !compare) {
         return {
           success: false,
           code: 401,
-          data: "Incorrect password!",
+          data: "Incorrect password/email!",
         };
       }
 
@@ -114,7 +117,7 @@ class UserRepository {
           data: "Email is not verified!",
           code: 401,
         };
-      //Generate token
+      // Generate token
       // const token = generateToken(user._id);
       return {
         success: true,
