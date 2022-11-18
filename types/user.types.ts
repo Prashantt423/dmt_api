@@ -4,8 +4,8 @@ export interface UserType extends Document {
   name: string;
   email: string;
   password: string;
-  cart?: [string];
-  // ip: string;
+  cart?: [Object];
+  ip: Object;
   passwordChangedAt: number;
   dateOfBirth: Date;
   confirmPassword: string;
