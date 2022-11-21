@@ -121,9 +121,10 @@ class UserServices {
     }
   };
   public static removeFromCart: RequestHandler = async (req, res, next) => {
+    console.log(req.body);
     try {
       const updatedCart = await UserRepository.deleteProductsFromCart(
-        req.body.product,
+        req.body,
         req.user
       );
       if (!updatedCart.success) {

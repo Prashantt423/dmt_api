@@ -1,4 +1,4 @@
-import { FilterQuery } from "mongoose";
+import { FilterQuery, ObjectId } from "mongoose";
 
 export interface DiscountType {
   value?: Number;
@@ -68,3 +68,5 @@ export type GetSearchedProductsRepository = (params: RegExp[]) => Promise<any>;
 
 export type GetAlbums = (params: number) => Promise<any>;
 export type GetProductById = (id: string) => Promise<any>;
+
+export type getMultipleProductsById = (ids: any) => Promise<any>;

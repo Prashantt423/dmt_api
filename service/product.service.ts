@@ -5,6 +5,7 @@ import {
   DeleteProduct,
   GetProductById,
 } from "../types/product.types";
+import { Types } from "mongoose";
 
 export class ProductService {
   public static createProduct: CreateProduct = async (product) => {
@@ -41,4 +42,31 @@ export class ProductService {
       next(e);
     }
   };
+  // public static getMultipleProducts: RequestHandler = async (
+  //   req,
+  //   res,
+  //   next
+  // ) => {
+  //   try {
+  //     const user = req.user;
+  //     if (!user) {
+  //       throw new Error("No user found");
+  //     }
+  //     const ids = user.cart.map((el) => {
+  //       return new Types.ObjectId(el.product);
+  //     });
+  //     console.log(ids);
+  //     const { data } = await ProductRepository.getMultipleProductsById(ids);
+  //     // console.log(data);
+  //     // if (!data.sucess) {
+  //     //   throw new Error("Something went wrong");
+  //     // }
+  //     res.status(200).json({
+  //       data,
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //     next(e);
+  //   }
+  // };
 }

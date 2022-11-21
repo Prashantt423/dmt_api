@@ -24,7 +24,13 @@ const userSchema = new Schema<UserType>({
     type: String,
   },
   cart: {
-    type: [Object],
+    type: [
+      {
+        product: String,
+        varient: Object,
+        quantity: Number,
+      },
+    ],
   },
   ip: {
     type: Object,
