@@ -9,13 +9,6 @@ export interface ProductDetailsType {
   field?: String;
   value?: String;
 }
-export interface VariantType {
-  stock: Number;
-  // dynamically added field type and value
-}
-export interface AttributeType {
-  variant?: [];
-}
 
 export interface ProductType {
   title: String;
@@ -23,12 +16,15 @@ export interface ProductType {
   tags?: [String];
   description: String;
   discount?: DiscountType;
-  attribute?: AttributeType;
+  variant?: [any];
   coverImage: String;
   images: [String];
   productDetails?: ProductDetailsType;
   artists?: [String];
   songs?: [String];
+  hotAlbumPoster?: String;
+  sample?: String;
+  compiledBy?: String;
   productType: "release" | "goods";
   created_at: number;
   updatedAt: Date;
