@@ -4,7 +4,16 @@ export interface UserType extends Document {
   name: string;
   email: string;
   password: string;
-  cart?: [Object];
+  cart?: [
+    {
+      product: string;
+      varient: {
+        color?: string;
+        size?: string;
+      };
+      quantity: number;
+    }
+  ];
   ip: Object;
   passwordChangedAt: number;
   dateOfBirth: Date;
@@ -43,6 +52,13 @@ export type FindUser = (
 ) => Promise<RepositoryReturnType>;
 
 export type Cart = (
-  product: { product: string; varient: {} },
+  product: {
+    product: string;
+    varient: {
+      color?: string;
+      size?: string;
+    };
+    quantity: number;
+  },
   user: UserType
 ) => Promise<RepositoryReturnType>;

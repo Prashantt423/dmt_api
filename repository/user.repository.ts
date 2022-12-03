@@ -134,14 +134,18 @@ class UserRepository {
     }
   };
   public static addproductsToCart: Cart = async (product, user) => {
+    console.log(product);
     try {
-      const updatedUser = await User.findByIdAndUpdate(
-        user._id,
-        {
-          $push: { cart: product },
-        },
-        { safe: true, upsert: true }
-      );
+      // const updatedUser = await User.findByIdAndUpdate(
+      //   user._id,
+      //   {
+      //     $push: { cart: product },
+      //   }
+      //   // { safe: true, upsert: true }
+      // );
+      const currUser = await User.findById(user._id);
+      currUser.cart.push(product);
+      const updatedUser = await currUser.save({ validateBeforeSave: false });
 
       return {
         data: updatedUser,
@@ -155,11 +159,19 @@ class UserRepository {
       };
     }
   };
-  public static deleteProductsFromCart: Cart = async (product, user) => {
+  public static deleteProductsFromCart: Cart = async (product, userId) => {
     try {
-      const updatedUser = await User.findByIdAndUpdate(user._id, {
-        $pull: { cart: product },
+      const user = await User.findById(userId._id);
+      const itemToRemove = user.cart.findIndex((el, i) => {
+        return (
+          el.product === product.product &&
+          UserUsecase.haveSameData(el.varient, product.varient)
+        );
       });
+      console.log({ itemToRemove });
+      user.cart.splice(itemToRemove, 1);
+
+      const updatedUser = await user.save({ validateBeforeSave: false });
       return {
         data: updatedUser,
         success: true,

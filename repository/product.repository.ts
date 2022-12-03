@@ -2,6 +2,7 @@ import {
   CreateProduct,
   DeleteProduct,
   GetAlbums,
+  getMultipleProductsById,
   GetProduct,
   GetProductById,
   GetProductWithPageAndLimit,
@@ -119,4 +120,22 @@ export class ProductRepository {
       };
     }
   };
+  // public static getMultipleProductsById: getMultipleProductsById = async (
+  //   ids
+  // ) => {
+  //   try {
+  //     const data = await Product.find({ _id: { $in: ids } });
+  //     return {
+  //       data,
+  //       sucess: true,
+  //     };
+  //   } catch (e) {
+  //     console.log(e);
+  //     return {
+  //       sucess: false,
+  //       data: null,
+  //       message: e,
+  //     };c
+  //   }
+  // };
 }
