@@ -21,13 +21,8 @@ const orderSchema = new Schema<Ordertype>({
     required: true,
     type: String,
   },
-  deliveryAddress: {
-    type: String,
-    required: true,
-  },
   expectedDelivery: {
     type: Date,
-    required: true,
   },
   orderAmount: {
     type: Number,
@@ -41,9 +36,9 @@ const orderSchema = new Schema<Ordertype>({
     type: Boolean,
     default: true,
   },
-  product: {
+  items: {
+    type: [],
     required: true,
-    type: String,
   },
   transactionId: {
     required: true,

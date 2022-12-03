@@ -1,4 +1,4 @@
-import { Types, Document } from "mongoose";
+import { Types, Document, ObjectId } from "mongoose";
 
 export interface UserType extends Document {
   name: string;
@@ -22,6 +22,17 @@ export interface UserType extends Document {
   _id?: Types.ObjectId;
   phone?: Number;
   isVerified: Boolean;
+  deliveryAddress: {
+    country: string;
+    fullName: string;
+    mobileNumber: number;
+    pincode: number;
+    buildingNumber?: string;
+    flatNumber?: string;
+    landmark: string;
+    city?: string;
+    state: string;
+  };
 }
 
 type Signup = {
@@ -59,6 +70,21 @@ export type Cart = (
       size?: string;
     };
     quantity: number;
+  },
+  user: UserType
+) => Promise<RepositoryReturnType>;
+
+export type UpdateDeliveryAddress = (
+  adress: {
+    country: string;
+    fullName: string;
+    mobileNumber: number;
+    pincode: number;
+    buildingNumber: string;
+    flatNumber: string;
+    landmark: string;
+    city: string;
+    state: string;
   },
   user: UserType
 ) => Promise<RepositoryReturnType>;

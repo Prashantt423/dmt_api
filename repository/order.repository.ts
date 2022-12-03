@@ -4,7 +4,7 @@ import orderModel from "../model/order.model";
 class OrderRepository {
   public static createOrders: OrderCreate = async (orders) => {
     try {
-      const createdObjects = await orderModel.insertMany(orders);
+      const createdObjects = await orderModel.create(orders);
       return {
         data: createdObjects,
         success: true,

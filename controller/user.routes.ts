@@ -15,10 +15,9 @@ userRouter.post(
   AuthMiddleWare.authorization,
   UserServices.removeFromCart
 );
-// userRouter.post(
-//   "/get-products",
-//   AuthMiddleWare.authorization,
-//   ProductService.getMultipleProducts
-// );
-
+userRouter.post(
+  "/update-delivery-address",
+  AuthMiddleWare.authorization,
+  UserServices.updateDeliveryAddress
+);
 export default userRouter;

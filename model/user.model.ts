@@ -53,6 +53,19 @@ const userSchema = new Schema<UserType>({
     type: Boolean,
     default: false,
   },
+  deliveryAddress: {
+    type: {
+      country: String,
+      fullName: String,
+      mobileNumber: Number,
+      pincode: Number,
+      buildingNumber: String,
+      flatNumber: String,
+      landmark: String,
+      city: String,
+      state: String,
+    },
+  },
 });
 
 userSchema.pre("save", async function (next) {

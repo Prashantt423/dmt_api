@@ -3,6 +3,7 @@ import { RequestHandler } from "express";
 import RazorpayClinet from "../utils/razorpayClient";
 import TransactionDetailsRepository from "../repository/transactionDetails.repository";
 import OrderRepository from "../repository/order.repository";
+import { Ordertype } from "../types/order.types";
 
 class PaymentService {
   public static generatePayment: RequestHandler = async (req, res, next) => {
@@ -39,8 +40,9 @@ class PaymentService {
           method: req.body.payload.payment.entity.method,
           paymentId: req.body.payload.payment.entity.id,
           user: req.body.payload.payment.entity.email,
+          // deliveryAddress: req.body.payload.payment.entity.email,
         };
-        // console.log(newTransactionDetaailObject);
+        console.log({ newTransactionDetaailObject });
         const newObj =
           await TransactionDetailsRepository.createTransactionDetail(
             newTransactionDetaailObject
@@ -48,9 +50,19 @@ class PaymentService {
         if (!newObj.success) {
           throw new Error("Something went wrong");
         }
-        const createOrders = await OrderRepository.createOrders(
-          req.body.payload.payment.entity.notes.orders
+        const cartOrders = JSON.parse(
+          req.body.payload.payment.entity.notes.products
         );
+        const order: Ordertype = {
+          items: JSON.parse(req.body.payload.payment.entity.notes.products),
+          paymentSuccess: true,
+          orderAmount: newTransactionDetaailObject.amount,
+          orderedOn: new Date(Date.now()),
+          updates: [{ type: "order_placed", time: Date.now() }],
+          customer: newTransactionDetaailObject.user,
+          transactionId: newTransactionDetaailObject.paymentId,
+        };
+        const createOrders = await OrderRepository.createOrders(order);
         res.status(200).json({
           sucess: true,
         });

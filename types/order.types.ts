@@ -4,20 +4,19 @@ export interface UpdateSchema {
 }
 
 export interface Ordertype {
-  product: string;
-  deliveryAddress: string;
+  items: [];
   orderAmount: number;
   paymentSuccess: boolean;
   orderedOn: Date;
   updates: [UpdateSchema];
-  expectedDelivery: Date;
+  expectedDelivery?: Date;
   customer: string;
   transactionId: string;
-  cancelled: boolean;
+  cancelled?: boolean;
 }
 
 export interface OrderReturnType {
   data: any;
   success: boolean;
 }
-export type OrderCreate = (order: [object]) => Promise<OrderReturnType>;
+export type OrderCreate = (order: object) => Promise<OrderReturnType>;

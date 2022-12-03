@@ -53,7 +53,6 @@ class UserServices {
   };
   public static login: RequestHandler = async (req, res, next) => {
     try {
-      console.log(req.user);
       const { email, password } = req.body;
       const user = await UserRepository.logIn(email, password);
       if (!user.success) {
@@ -135,6 +134,23 @@ class UserServices {
       });
     } catch (e) {
       console.log(e);
+      next(e);
+    }
+  };
+  public static updateDeliveryAddress: RequestHandler = async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      const updatedUser = await UserRepository.updateDeliveryAdress(
+        req.body,
+        req.user
+      );
+      res.status(200).json({
+        updatedUser,
+      });
+    } catch (e) {
       next(e);
     }
   };

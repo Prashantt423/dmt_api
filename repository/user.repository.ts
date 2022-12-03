@@ -6,6 +6,7 @@ import {
   FindUser,
   LoginReturnType,
   SignupReturnType,
+  UpdateDeliveryAddress,
   UserType,
 } from "../types/user.types";
 
@@ -133,16 +134,36 @@ class UserRepository {
       };
     }
   };
+  public static updateDeliveryAdress: UpdateDeliveryAddress = async (
+    address,
+    user
+  ) => {
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: user._id },
+        {
+          $set: { deliveryAddress: address },
+        },
+        {
+          new: true,
+        }
+      );
+      console.log({ updatedUser });
+      return {
+        success: true,
+        data: updatedUser,
+      };
+    } catch (e) {
+      return {
+        success: false,
+        data: null,
+        message: e,
+      };
+    }
+  };
   public static addproductsToCart: Cart = async (product, user) => {
     console.log(product);
     try {
-      // const updatedUser = await User.findByIdAndUpdate(
-      //   user._id,
-      //   {
-      //     $push: { cart: product },
-      //   }
-      //   // { safe: true, upsert: true }
-      // );
       const currUser = await User.findById(user._id);
       currUser.cart.push(product);
       const updatedUser = await currUser.save({ validateBeforeSave: false });
@@ -168,7 +189,6 @@ class UserRepository {
           UserUsecase.haveSameData(el.varient, product.varient)
         );
       });
-      console.log({ itemToRemove });
       user.cart.splice(itemToRemove, 1);
 
       const updatedUser = await user.save({ validateBeforeSave: false });
