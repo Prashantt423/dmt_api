@@ -12,6 +12,17 @@ import Product from "../model/product.model";
 export class ProductRepository {
   public static createProduct: CreateProduct = async (product) => {
     try {
+      // check if stock field is available or not in every variant
+
+      for (let i = 0; i < product.variant.length; i++) {
+        if (!("stock" in product.variant[i])) {
+          return {
+            data: "stock information is required!",
+            success: false,
+            status: 201,
+          };
+        }
+      }
       const newProduct = await new Product({
         title: product.title,
         price: product.price,
@@ -21,12 +32,16 @@ export class ProductRepository {
           endDate: new Date(product?.discount?.endDate),
           value: product?.discount?.value,
         },
-        attribute: product?.attribute,
+        tags: product?.tags,
+        variant: product.variant,
         coverImage: product.coverImage,
         images: product.images,
         productDetails: product?.productDetails, // other fields are dynamically added
         artists: product?.artists,
         songs: product?.songs,
+        hotAlbumPoster: product?.hotAlbumPoster,
+        sample: product?.sample,
+        compiledBy: product?.compiledBy,
         productType: product?.productType,
         created_at: Date.now(),
       });
