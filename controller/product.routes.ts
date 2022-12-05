@@ -76,6 +76,10 @@ productRouter.get(
     }
   }
 );
+productRouter.get(
+  "/generate_presigned_url",
+  ProductService.generatePresignedUrl
+);
 
 productRouter.get("/:id", ProductService.getSingleProduct);
 export { productRouter };
