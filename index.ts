@@ -28,8 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //Request logger
-morganBody(app);
-process.env.SRC_PATH = path.resolve(__dirname);
+// morganBody(app);
+// process.env.SRC_PATH = path.resolve(__dirname);
 
 // Setup Mongoose connection
 require("./config/db")(process.env.MONGO_URL);
@@ -43,8 +43,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   req.headers["x-request-id"] = requestId;
   res.setHeader("x-request-id", requestId);
   httpContext.set("requestId", requestId);
-  logRequest(req);
-  responseLoggerMiddleware(res);
+  // logRequest(req);
+  // responseLoggerMiddleware(res);
   next();
 });
 

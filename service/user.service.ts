@@ -8,29 +8,34 @@ import MailService from "../utils/notifications";
 import Crypto from "../utils/crypto";
 class UserServices {
   public static signup: RequestHandler = async (req, res, next) => {
+    console.log({ email: req.body.email });
     try {
-      const doEmailExist = await UserRepository.doEmailExist(req.body?.email);
+      // const doEmailExist = await UserRepository.doEmailExist(req.body?.email);
 
-      if (doEmailExist?.error)
-        res.status(500).json({
-          message: "Internal server errror!",
-        });
-      if (doEmailExist?.isPresent)
-        res.status(401).json({
-          message: "This email already exists!",
-        });
+      // if (doEmailExist?.error)
+      //   res.status(500).json({
+      //     message: "Internal server errror!",
+      //   });
+      // if (doEmailExist?.isPresent)
+      //   res.status(401).json({
+      //     message: "This email already exists!",
+      //   });
 
-      // send (hashed email of user) to email for verification
-      const token = Crypto.encrypt(req.body?.email);
-      const verifyLink = `${process.env.CLIENT_SERVER}verify/${token}`;
+      // // send (hashed email of user) to email for verification
+      // const token = Crypto.encrypt(req.body.email);
+      // const verifyLink = `${process.env.CLIENT_SERVER}verify/${token}`;
 
-      const emailTemplate = verifyEmailTamplate(verifyLink);
-      const mailService = await MailService.sendEmailUtilLive(9000, {
-        to: req.body?.email,
-        subject: "Verify OTP",
-        html: emailTemplate.html,
-      });
-      console.log(mailService);
+      // const emailTemplate = verifyEmailTamplate(verifyLink);
+      // const mailService = await MailService.sendEmailUtilLive(9000, {
+      //   to: req.body?.email,
+      //   subject: "Verify OTP",
+      //   html: emailTemplate.html,
+      // });
+      // const doEmailExist = await UserRepository.doEmailExist(req.body?.email);
+      // console.log({ doEmailExist });
+      // if (doEmailExist) {
+      //   throw new Error("The user exsists");
+      // }
       const user: any = {
         name: req.body?.name,
         email: req.body?.email,
@@ -42,12 +47,16 @@ class UserServices {
       };
       const newUser = await UserRepository.signUp(user);
       console.log(newUser);
+      if (!newUser) {
+        throw new Error("Soemthing went wrong");
+      }
 
       res.status(201).json({
         messgae: "success",
         newUser,
       });
     } catch (e) {
+      console.log(e);
       next(e);
     }
   };

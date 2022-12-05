@@ -48,17 +48,26 @@ class UserRepository {
   public static doEmailExist = async (email: string) => {
     try {
       const user = await User.findOne({ email: email });
+      // if (
+      //   user && // 👈 null and undefined check
+      //   Object.keys(user).length === 0 &&
+      //   Object.getPrototypeOf(user) === Object.prototype
+      // )
+      //   return {
+      //     isPresent: true,
+      //   };
+      // return {
+      //   isPresent: false,
+      // };
       if (
-        user && // 👈 null and undefined check
-        Object.keys(user).length === 0 &&
-        Object.getPrototypeOf(user) === Object.prototype
-      )
+        user // 👈 null and undefined check
+        // Object.keys(user).length === 0 &&
+        // Object.getPrototypeOf(user) === Object.prototype
+      ) {
         return {
           isPresent: true,
         };
-      return {
-        isPresent: false,
-      };
+      }
     } catch (e) {
       console.log(e);
       return {
@@ -67,6 +76,7 @@ class UserRepository {
       };
     }
   };
+
   public static updateStatus = async (email: string) => {
     try {
       const user = await User.findOneAndUpdate(
