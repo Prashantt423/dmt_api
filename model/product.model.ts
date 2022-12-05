@@ -2,8 +2,6 @@ import mongoose, { Model, Schema } from "mongoose";
 import {
   ProductType,
   DiscountType,
-  AttributeType,
-  VariantType,
   ProductDetailsType,
 } from "../types/product.types";
 const discountSchema = new Schema<DiscountType>(
@@ -35,13 +33,6 @@ const productDetailSchema = new Schema<ProductDetailsType>(
   },
   { _id: false }
 );
-const attributeSchema = new Schema<AttributeType>(
-  {
-    variant: [],
-    // other fields are dynamically added
-  },
-  { _id: false }
-);
 const productSchema = new Schema<ProductType>(
   {
     title: {
@@ -68,7 +59,7 @@ const productSchema = new Schema<ProductType>(
       trim: true,
     },
     discount: discountSchema,
-    attribute: attributeSchema,
+    variant: [],
     coverImage: {
       type: String,
       required: true,
@@ -81,13 +72,9 @@ const productSchema = new Schema<ProductType>(
     artists: {
       type: [String],
     },
-    songs: [
-      {
-        poster: String,
-        song: String,
-      },
-    ],
-
+    compiledBy: String,
+    hotAlbumPoster: String,
+    sample: String,
     productType: {
       type: String,
       enum: ["release", "goods"],
