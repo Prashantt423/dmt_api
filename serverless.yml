@@ -1,0 +1,31 @@
+service: dmt-api
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 2048
+  timeout: 15
+functions:
+  hello:
+    handler: handler.hello
+    events:
+     - http : ANY /{proxy+}
+     - http : ANY /
+    environment:
+     MONGO_URL : mongodb+srv://dmt:Dendro123@cluster0.yvz1nki.mongodb.net/?retryWrites=true&w=majority
+     PORT : 3001
+     REQUEST_RESPONSE_: LOG_PATH:D:\\Logs\\dmt_api_req.log
+     JWT_SECRET : I Have a very strong and strong password and not joking 
+     JWT_EXPIRES_IN : '2d'
+     RAZORPAYSECRET : "jc522066y"
+     NODE_ENV: dev
+     SMTP_HOST: smtp-relay.sendinblue.com
+     SMTP_PORT: 587
+     SMTP_USERNAME: testarcadia01@gmail.com
+     SMTP_TLS: false
+     SMTP_PASSWORD: yXObhLk8WNpgUYJj 
+     SMTP_SENDER: testarcadia01@gmail.com
+     SMTP_API_KEY: keysib-88cedb114dd4e23131f489b0028dbb19b62b88484f2839b33e4c8bfce66dd43b-YjckGmW2AThgEy9t
+     CRYPTO_ALGO: aes-256-cbc
+     CRYPTO_IV_LENGTH: 16
+     CRYPTO_SECRET_KEY: abcdefghijklmnopqrstuvwxyzabcdef
