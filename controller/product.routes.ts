@@ -18,6 +18,7 @@ productRouter.post(
       const productObj = await ProductService.createProduct(req.body);
       res.status(productObj.status).json(productObj);
     } catch (e) {
+      console.log(e);
       next(e);
     }
   }

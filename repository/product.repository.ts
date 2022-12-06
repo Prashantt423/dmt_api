@@ -13,14 +13,15 @@ export class ProductRepository {
   public static createProduct: CreateProduct = async (product) => {
     try {
       // check if stock field is available or not in every variant
-
-      for (let i = 0; i < product.variant.length; i++) {
-        if (!("stock" in product.variant[i])) {
-          return {
-            data: "stock information is required!",
-            success: false,
-            status: 201,
-          };
+      if (product.variant) {
+        for (let i = 0; i < product.variant.length; i++) {
+          if (!("stock" in product.variant[i])) {
+            return {
+              data: "stock information is required!",
+              success: false,
+              status: 201,
+            };
+          }
         }
       }
       const newProduct = await new Product({
@@ -33,7 +34,7 @@ export class ProductRepository {
           value: product?.discount?.value,
         },
         tags: product?.tags,
-        variant: product.variant,
+        variant: product?.variant,
         coverImage: product.coverImage,
         images: product.images,
         productDetails: product?.productDetails, // other fields are dynamically added
@@ -52,6 +53,7 @@ export class ProductRepository {
         status: 200,
       };
     } catch (e) {
+      console.log(e);
       return {
         data: e,
         success: false,

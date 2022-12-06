@@ -29,6 +29,7 @@ export interface ProductType {
   created_at: number;
   updatedAt: Date;
   createdAt: Date;
+  downloadLink?: String;
 }
 
 export type ProductReturnType = {

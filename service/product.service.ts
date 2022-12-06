@@ -14,6 +14,7 @@ export class ProductService {
     try {
       return await ProductRepository.createProduct(product);
     } catch (e) {
+      console.log(e);
       return {
         data: e,
         success: false,
