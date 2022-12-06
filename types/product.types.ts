@@ -67,3 +67,4 @@ export type GetAlbums = (params: number) => Promise<any>;
 export type GetProductById = (id: string) => Promise<any>;
 
 export type getMultipleProductsById = (ids: any) => Promise<any>;
+export type getAllReleases = () => Promise<any>;

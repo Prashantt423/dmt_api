@@ -82,5 +82,7 @@ productRouter.get(
   ProductService.generatePresignedUrl
 );
 
+productRouter.get("/get_releases", ProductService.getReleases);
 productRouter.get("/:id", ProductService.getSingleProduct);
+
 export { productRouter };

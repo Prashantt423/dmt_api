@@ -81,4 +81,20 @@ export class ProductService {
       });
     }
   };
+  public static getReleases: RequestHandler = async (req, res, next) => {
+    try {
+      console.log("working");
+      const data = await ProductRepository.getAllReleases();
+      console.log(data);
+      if (!data.success) {
+        throw new Error("something went wrong");
+      }
+      res.status(200).json({
+        data: data.data,
+      });
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  };
 }

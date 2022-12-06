@@ -2,6 +2,7 @@ import {
   CreateProduct,
   DeleteProduct,
   GetAlbums,
+  getAllReleases,
   getMultipleProductsById,
   GetProduct,
   GetProductById,
@@ -100,7 +101,9 @@ export class ProductRepository {
       .limit(limit);
   };
   public static getProductWithLimit: GetProduct = async ({ limit }) => {
-    return await Product.find({}).sort({ updatedAt: -1 }).limit(limit);
+    return await Product.find({ productType: "goods" })
+      .sort({ updatedAt: -1 })
+      .limit(limit);
   };
   public static getAlbums: GetAlbums = async (limit) => {
     return await Product.find({
@@ -133,6 +136,22 @@ export class ProductRepository {
         message: "Could not fetch the id",
         data: null,
         status: 404,
+        success: false,
+      };
+    }
+  };
+  public static getAllReleases: getAllReleases = async () => {
+    try {
+      const data = await Product.find({ productType: "release" }).sort({
+        updatedAt: -1,
+      });
+      return {
+        data,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
         success: false,
       };
     }
