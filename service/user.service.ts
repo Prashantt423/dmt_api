@@ -154,6 +154,16 @@ class UserServices {
       next(e);
     }
   };
+  public static all: RequestHandler = async (req, res, next) => {
+    try {
+      const users = await UserRepository.all();
+      res.status(200).json({
+        users,
+      });
+    } catch (e) {
+      next(e);
+    }
+  };
 }
 
 export default UserServices;

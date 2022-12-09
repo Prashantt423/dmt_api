@@ -7,12 +7,14 @@ import {
 } from "express";
 import { ProductUseCase } from "../usecase/product/product.usecase";
 import { ProductService } from "../service/product.service";
+import AuthMiddleWare from "../middleware/auth.middleware";
 
 const express = require("express");
 const productRouter: Router = express.Router();
 
 productRouter.post(
   "/create",
+  AuthMiddleWare.IsAdmin,
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
       const productObj = await ProductService.createProduct(req.body);
@@ -26,6 +28,7 @@ productRouter.post(
 
 productRouter.delete(
   "/delete",
+  AuthMiddleWare.IsAdmin,
   async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
       const deletedProductObj = await ProductService.deleteProduct(req.body.id);
@@ -79,10 +82,15 @@ productRouter.get(
 );
 productRouter.get(
   "/generate_presigned_url",
+  AuthMiddleWare.authorization,
   ProductService.generatePresignedUrl
 );
 
-productRouter.get("/get_releases", ProductService.getReleases);
+productRouter.get(
+  "/get_releases",
+  AuthMiddleWare.authorization,
+  ProductService.getReleases
+);
 productRouter.get("/:id", ProductService.getSingleProduct);
 
 export { productRouter };
