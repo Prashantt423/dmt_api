@@ -190,6 +190,21 @@ class UserRepository {
       };
     }
   };
+  public static all = async () => {
+    try {
+      const users = await User.find({});
+      return {
+        data: users,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        data: null,
+        success: false,
+      };
+    }
+  };
   public static deleteProductsFromCart: Cart = async (product, userId) => {
     try {
       const user = await User.findById(userId._id);

@@ -2,6 +2,7 @@ import {
   CreateProduct,
   DeleteProduct,
   GetAlbums,
+  getAllReleases,
   getMultipleProductsById,
   GetProduct,
   GetProductById,
@@ -13,14 +14,15 @@ export class ProductRepository {
   public static createProduct: CreateProduct = async (product) => {
     try {
       // check if stock field is available or not in every variant
-
-      for (let i = 0; i < product.variant.length; i++) {
-        if (!("stock" in product.variant[i])) {
-          return {
-            data: "stock information is required!",
-            success: false,
-            status: 201,
-          };
+      if (product.variant) {
+        for (let i = 0; i < product.variant.length; i++) {
+          if (!("stock" in product.variant[i])) {
+            return {
+              data: "stock information is required!",
+              success: false,
+              status: 201,
+            };
+          }
         }
       }
       const newProduct = await new Product({
@@ -33,7 +35,7 @@ export class ProductRepository {
           value: product?.discount?.value,
         },
         tags: product?.tags,
-        variant: product.variant,
+        variant: product?.variant,
         coverImage: product.coverImage,
         images: product.images,
         productDetails: product?.productDetails, // other fields are dynamically added
@@ -52,6 +54,7 @@ export class ProductRepository {
         status: 200,
       };
     } catch (e) {
+      console.log(e);
       return {
         data: e,
         success: false,
@@ -98,7 +101,9 @@ export class ProductRepository {
       .limit(limit);
   };
   public static getProductWithLimit: GetProduct = async ({ limit }) => {
-    return await Product.find({}).sort({ updatedAt: -1 }).limit(limit);
+    return await Product.find({ productType: "goods" })
+      .sort({ updatedAt: -1 })
+      .limit(limit);
   };
   public static getAlbums: GetAlbums = async (limit) => {
     return await Product.find({
@@ -131,6 +136,22 @@ export class ProductRepository {
         message: "Could not fetch the id",
         data: null,
         status: 404,
+        success: false,
+      };
+    }
+  };
+  public static getAllReleases: getAllReleases = async () => {
+    try {
+      const data = await Product.find({ productType: "release" }).sort({
+        updatedAt: -1,
+      });
+      return {
+        data,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
         success: false,
       };
     }

@@ -6,12 +6,15 @@ import {
   GetProductById,
 } from "../types/product.types";
 import { Types } from "mongoose";
+import { v4 } from "uuid";
+import AWS from "aws-sdk";
 
 export class ProductService {
   public static createProduct: CreateProduct = async (product) => {
     try {
       return await ProductRepository.createProduct(product);
     } catch (e) {
+      console.log(e);
       return {
         data: e,
         success: false,
@@ -42,31 +45,56 @@ export class ProductService {
       next(e);
     }
   };
-  // public static getMultipleProducts: RequestHandler = async (
-  //   req,
-  //   res,
-  //   next
-  // ) => {
-  //   try {
-  //     const user = req.user;
-  //     if (!user) {
-  //       throw new Error("No user found");
-  //     }
-  //     const ids = user.cart.map((el) => {
-  //       return new Types.ObjectId(el.product);
-  //     });
-  //     console.log(ids);
-  //     const { data } = await ProductRepository.getMultipleProductsById(ids);
-  //     // console.log(data);
-  //     // if (!data.sucess) {
-  //     //   throw new Error("Something went wrong");
-  //     // }
-  //     res.status(200).json({
-  //       data,
-  //     });
-  //   } catch (e) {
-  //     console.log(e);
-  //     next(e);
-  //   }
-  // };
+  public static generatePresignedUrl: RequestHandler = async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      const s3 = new AWS.S3({
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+        // endPoint: "donation-program.s3-accelerate.amazonaws.com",
+        signatureVersion: "v4",
+        region: "ap-south-1",
+      });
+
+      const id = v4();
+      const params = {
+        Bucket: "dmt-storage-v1",
+        Key: `images/${id} `,
+        Expires: 60 * 10,
+        // ACL: "public-read",
+      };
+
+      const url = await s3.getSignedUrl("putObject", params);
+      const downloadAbleUrl = `https://dmt-storage-v1.s3.ap-south-1.amazonaws.com/images/${id}+`;
+      res.status(200).json({
+        status: "success",
+        url,
+        downloadAbleUrl,
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({
+        status: "failed",
+      });
+    }
+  };
+  public static getReleases: RequestHandler = async (req, res, next) => {
+    try {
+      console.log("working");
+      const data = await ProductRepository.getAllReleases();
+      console.log(data);
+      if (!data.success) {
+        throw new Error("something went wrong");
+      }
+      res.status(200).json({
+        data: data.data,
+      });
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  };
 }

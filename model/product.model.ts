@@ -59,7 +59,7 @@ const productSchema = new Schema<ProductType>(
       trim: true,
     },
     discount: discountSchema,
-    variant: [],
+    variant: { type: [], required: false },
     coverImage: {
       type: String,
       required: true,
@@ -75,6 +75,7 @@ const productSchema = new Schema<ProductType>(
     compiledBy: String,
     hotAlbumPoster: String,
     sample: String,
+    downloadLink: String,
     productType: {
       type: String,
       enum: ["release", "goods"],

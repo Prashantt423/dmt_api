@@ -17,6 +17,50 @@ class OrderRepository {
       };
     }
   };
+  public static getAllOrders = async () => {
+    try {
+      const AllOrders = await orderModel.find({});
+      return {
+        data: AllOrders,
+        status: 200,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        data: null,
+        status: 404,
+        success: false,
+      };
+    }
+  };
+  public static setOrderStatus = async (body: any) => {
+    try {
+      const AllOrders = await orderModel.updateOne(
+        { id: body.id },
+        {
+          $push: {
+            updates: {
+              time: Date.now(),
+              type: body.type,
+            },
+          },
+        }
+      );
+      return {
+        data: AllOrders,
+        status: 200,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        data: null,
+        status: 404,
+        success: false,
+      };
+    }
+  };
 }
 
 export default OrderRepository;

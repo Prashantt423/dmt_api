@@ -29,6 +29,7 @@ export interface ProductType {
   created_at: number;
   updatedAt: Date;
   createdAt: Date;
+  downloadLink?: String;
 }
 
 export type ProductReturnType = {
@@ -66,3 +67,4 @@ export type GetAlbums = (params: number) => Promise<any>;
 export type GetProductById = (id: string) => Promise<any>;
 
 export type getMultipleProductsById = (ids: any) => Promise<any>;
+export type getAllReleases = () => Promise<any>;
