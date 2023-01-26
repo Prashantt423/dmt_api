@@ -6,10 +6,12 @@ import {
   getMultipleProductsById,
   GetProduct,
   GetProductById,
+  GetProductByIds,
   GetProductWithPageAndLimit,
   GetSearchedProductsRepository,
 } from "../types/product.types";
 import Product from "../model/product.model";
+const ObjectID = require("mongodb").ObjectID;
 export class ProductRepository {
   public static createProduct: CreateProduct = async (product) => {
     try {
@@ -132,6 +134,29 @@ export class ProductRepository {
         success: true,
       };
     } catch (e) {
+      return {
+        message: "Could not fetch the id",
+        data: null,
+        status: 404,
+        success: false,
+      };
+    }
+  };
+  public static getMultipleProductById: GetProductByIds = async (ids) => {
+    try {
+      let newIds = ids.map((e: string) => new ObjectID(e));
+      console.log(newIds);
+      const data = await Product.find({
+        _id: { $in: ids },
+      });
+      console.log(data);
+      return {
+        data,
+        status: 200,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
       return {
         message: "Could not fetch the id",
         data: null,

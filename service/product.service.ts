@@ -45,6 +45,19 @@ export class ProductService {
       next(e);
     }
   };
+  public static getMultipleProduct: RequestHandler = async (req, res, next) => {
+    try {
+      const data = await ProductRepository.getMultipleProductById(
+        req.body.products
+      );
+      res.status(200).json({
+        data,
+      });
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  };
   public static generatePresignedUrl: RequestHandler = async (
     req,
     res,
