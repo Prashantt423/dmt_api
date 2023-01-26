@@ -92,5 +92,6 @@ productRouter.get(
   ProductService.getReleases
 );
 productRouter.get("/:id", ProductService.getSingleProduct);
+productRouter.post("/list", ProductService.getMultipleProduct);
 
 export { productRouter };

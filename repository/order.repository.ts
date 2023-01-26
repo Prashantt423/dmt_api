@@ -61,6 +61,23 @@ class OrderRepository {
       };
     }
   };
+  public static getOrdersOfUser = async (email: any) => {
+    try {
+      const AllOrders = await orderModel.find({ customer: email });
+      return {
+        data: AllOrders,
+        status: 200,
+        success: true,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        data: null,
+        status: 404,
+        success: false,
+      };
+    }
+  };
 }
 
 export default OrderRepository;

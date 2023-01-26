@@ -17,6 +17,9 @@ router.get(
     }
   }
 );
+
+// get order by user id
+router.get("/", OrderUseCase.getAllOrdersByUserId);
 router.post(
   "/",
   // AuthMiddleWare.IsAdmin,
