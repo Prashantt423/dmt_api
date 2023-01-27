@@ -14,7 +14,6 @@ export interface UserType extends Document {
       quantity: number;
     }
   ];
-  ip: Object;
   passwordChangedAt: number;
   dateOfBirth: Date;
   confirmPassword: string;
